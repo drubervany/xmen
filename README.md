@@ -39,6 +39,9 @@ Body:
     "dna":["ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG"], "mutante": true
 }
 ```
+
+| CODIGO | DESCRIÇÃO |
+|---|---|
 | 403 |  Humano |
 ```json
 {
@@ -56,13 +59,15 @@ GET → /stats/
 | 200 |  OK |
 ```json
 {
-    "count_mutant_dna":40, "count_human_dna":100: "ratio":0.4
+    "count_mutant_dna":40, "count_human_dna":100, "ratio":0.4
 }
 ```
 
 # Framawork Utilizado
 
-**O Serverless Framework** – É utilizado paracriação de microsserviços que são executados em resposta a eventos, autoescala para que cobre apenas quando eles são executados. Isso reduz o custo total de manutenção de seus aplicativos, permitindo que você crie mais lógica, mais rapidamente.
+Foi utilizado esta tecnologia para que atenda os tráfegos agressivos (entre 100 e 1milhões de pedidos por segundo).
+
+**O Serverless Framework** – É utilizado para criação de microsserviços que são executados em resposta a eventos, autoescala para que cobre apenas quando eles são executados. Isso reduz o custo total de manutenção de seus aplicativos, permitindo que você crie mais lógica, mais rapidamente.
 
 1. **Instalar via npm:**
   ```bash
