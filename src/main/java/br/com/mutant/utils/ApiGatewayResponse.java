@@ -1,15 +1,10 @@
 package br.com.mutant.utils;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Base64;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.amazonaws.util.CollectionUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -17,14 +12,10 @@ public class ApiGatewayResponse {
 
 	private final int statusCode;
 	private final String body;
-	private final Map<String, String> headers;
-	private final boolean isBase64Encoded;
 
-	public ApiGatewayResponse(int statusCode, String body, Map<String, String> headers, boolean isBase64Encoded) {
+	public ApiGatewayResponse(int statusCode, String body) {
 		this.statusCode = statusCode;
 		this.body = body;
-		this.headers = headers;
-		this.isBase64Encoded = isBase64Encoded;
 	}
 
 	public int getStatusCode() {
@@ -33,15 +24,6 @@ public class ApiGatewayResponse {
 
 	public String getBody() {
 		return body;
-	}
-
-	public Map<String, String> getHeaders() {
-		return headers;
-	}
-
-	// API Gateway expects the property to be called "isBase64Encoded" => isIs
-	public boolean isIsBase64Encoded() {
-		return isBase64Encoded;
 	}
 
 	public static Builder builder() {
@@ -55,7 +37,6 @@ public class ApiGatewayResponse {
 		private static final ObjectMapper objectMapper = new ObjectMapper();
 
 		private int statusCode = 200;
-		private Map<String, String> headers = Collections.emptyMap();
 		private String rawBody;
 		private Object objectBody;
 		private byte[] binaryBody;
@@ -66,65 +47,12 @@ public class ApiGatewayResponse {
 			return this;
 		}
 
-		public Builder setHeaders(Map<String, String> headers) {
-			this.headers = headers;
-			return this;
-		}
-
-		/**
-		 * Set response code to NO_CONTENT if col is null or empty Otherwise set col as
-		 * response body
-		 * 
-		 * @param col A {@link Collection}
-		 * @return {@link Builder}
-		 */
-		public Builder nonEmptyCollection(Collection<?> col) {
-			if (CollectionUtils.isNullOrEmpty(col)) {
-				setObjectBody(col);
-			} else {
-				setStatusCode(204);
-			}
-			return this;
-		}
-
-		/**
-		 * Builds the {@link ApiGatewayResponse} using the passed raw body string.
-		 */
-		public Builder setRawBody(String rawBody) {
-			this.rawBody = rawBody;
-			return this;
-		}
-
 		/**
 		 * Builds the {@link ApiGatewayResponse} using the passed object body converted
 		 * to JSON.
 		 */
 		public Builder setObjectBody(Object objectBody) {
 			this.objectBody = objectBody;
-			return this;
-		}
-
-		/**
-		 * Builds the {@link ApiGatewayResponse} using the passed binary body encoded as
-		 * base64. {@link #setBase64Encoded(boolean) setBase64Encoded(true)} will be in
-		 * invoked automatically.
-		 */
-		public Builder setBinaryBody(byte[] binaryBody) {
-
-			this.binaryBody = Arrays.copyOf(binaryBody, binaryBody.length);
-			setBase64Encoded(true);
-			return this;
-		}
-
-		/**
-		 * A binary or rather a base64encoded responses requires
-		 * <ol>
-		 * <li>"Binary Media Types" to be configured in API Gateway
-		 * <li>a request with an "Accept" header set to one of the "Binary Media Types"
-		 * </ol>
-		 */
-		public Builder setBase64Encoded(boolean base64Encoded) {
-			this.base64Encoded = base64Encoded;
 			return this;
 		}
 
@@ -147,7 +75,7 @@ public class ApiGatewayResponse {
 				body = new String(Base64.getEncoder().encode(binaryBody), StandardCharsets.UTF_8);
 			}
 
-			return new ApiGatewayResponse(statusCode, body, headers, base64Encoded);
+			return new ApiGatewayResponse(statusCode, body);
 
 		}
 	}
