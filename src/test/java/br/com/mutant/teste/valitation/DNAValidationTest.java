@@ -34,7 +34,7 @@ public class DNAValidationTest {
 	@Test
 	public void mutantFalso() throws InvalidDnaException {
 
-		String json = "{\"dna\":[\"ATGCGA\",\"AGTGC\",\"TTATTT\",\"AGACGG\",\"GCGTCA\",\"TCACTG\"]}";
+		String json = "{\"dna\":[\"ATGCGA\",\"CAGTGC\",\"TTATTT\",\"AGACGG\",\"GCGTCA\",\"TCACTG\"]}";
 		DNAParameter dna = Jackson.fromJsonString(json, DNAParameter.class);
 
 		boolean mutant = DNAMutantValidation.newInstance().withLista(dna.getDNA()).validar();

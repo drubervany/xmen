@@ -7,6 +7,7 @@ public final class DNAMutantValidation {
 	char[][] lista;
 	int totalLinhas;
 	int totalColunas;
+	int contDNAMutant = 0;
 
 	public static DNAMutantValidation newInstance() {
 		return new DNAMutantValidation();
@@ -24,16 +25,14 @@ public final class DNAMutantValidation {
 	}
 
 	private boolean verificarDNA() {
-		int contDANMutant = 0;
-		for (int linhaAtual = 0; linhaAtual < totalLinhas; linhaAtual++) {
-			for (int colunaAtual = 0; colunaAtual < totalColunas; colunaAtual++) {
-				boolean dnaHorizontal = validarHorizontal(linhaAtual, colunaAtual);
-				boolean dnaVertical = validarVertical(linhaAtual, colunaAtual);
-				boolean dnaOblicua = validarOblicua(linhaAtual, colunaAtual);
-				if (dnaHorizontal || dnaVertical || dnaOblicua) {
-					if (++contDANMutant > 1)
-						return true;
-				}
+
+		for (int linhaAtual = 0; linhaAtual < this.totalLinhas; linhaAtual++) {
+			for (int colunaAtual = 0; colunaAtual < this.totalColunas; colunaAtual++) {
+				validarHorizontal(linhaAtual, colunaAtual);
+				validarVertical(linhaAtual, colunaAtual);
+				validarOblicua(linhaAtual, colunaAtual);
+				if (this.contDNAMutant > 1)
+					return true;
 			}
 		}
 		return false;
@@ -48,32 +47,39 @@ public final class DNAMutantValidation {
 		return colunaAtual;
 	}
 
-	private boolean validarOblicua(int linha, int coluna) {
-		if (linha < (totalLinhas - 4) && coluna < (totalColunas - 4)) {
-			return validar(linha, coluna) == validar(linha + 1, coluna + 1)
+	private void validarOblicua(int linha, int coluna) {
+		if (linha < (totalLinhas - 4) && coluna <= (totalColunas - 4)) {
+			if (validar(linha, coluna + 4) == validar(linha + 1, coluna + 1)
 					&& validar(linha + 1, coluna + 1) == validar(linha + 2, coluna + 2)
-					&& validar(linha + 2, coluna + 2) == validar(linha + 3, coluna + 3);
+					&& validar(linha + 2, coluna + 2) == validar(linha + 3, coluna + 3)) {
+				this.contDNAMutant++;
+			}
 		}
-		return false;
+		if (linha < (totalLinhas - 4) && coluna <= (totalColunas - 4)) {
+			if (validar(linha, coluna + 4) == validar(linha + 1, coluna + 3)
+					&& validar(linha + 1, coluna + 3) == validar(linha + 2, coluna + 2)
+					&& validar(linha + 2, coluna + 2) == validar(linha + 3, coluna + 1)) {
+				this.contDNAMutant++;
+			}
+		}
 	}
 
-	private boolean validarVertical(int linha, int coluna) {
+	private void validarVertical(int linha, int coluna) {
 		if (linha < (totalLinhas - 4)) {
-			return validar(linha, coluna) == validar(linha + 1, coluna)
+			if (validar(linha, coluna) == validar(linha + 1, coluna)
 					&& validar(linha + 1, coluna) == validar(linha + 2, coluna)
-					&& validar(linha + 2, coluna) == validar(linha + 3, coluna);
+					&& validar(linha + 2, coluna) == validar(linha + 3, coluna))
+				this.contDNAMutant++;
 		}
-		return false;
-
 	}
 
-	private boolean validarHorizontal(int linha, int coluna) {
+	private void validarHorizontal(int linha, int coluna) {
 		if (coluna < (totalColunas - 4)) {
-			return validar(linha, coluna) == validar(linha, coluna + 1)
+			if (validar(linha, coluna) == validar(linha, coluna + 1)
 					&& validar(linha, coluna + 1) == validar(linha, coluna + 2)
-					&& validar(linha, coluna + 2) == validar(linha, coluna + 3);
+					&& validar(linha, coluna + 2) == validar(linha, coluna + 3))
+				this.contDNAMutant++;
 		}
-		return false;
 	}
 
 	private char validar(int linha, int coluna) {
