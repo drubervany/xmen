@@ -24,14 +24,16 @@ public final class DNAMutantValidation {
 	}
 
 	private boolean verificarDNA() {
-
+		int contDANMutant = 0;
 		for (int linhaAtual = 0; linhaAtual < totalLinhas; linhaAtual++) {
 			for (int colunaAtual = 0; colunaAtual < totalColunas; colunaAtual++) {
 				boolean dnaHorizontal = validarHorizontal(linhaAtual, colunaAtual);
 				boolean dnaVertical = validarVertical(linhaAtual, colunaAtual);
 				boolean dnaOblicua = validarOblicua(linhaAtual, colunaAtual);
-				if (dnaHorizontal || dnaVertical || dnaOblicua)
-					return true;
+				if (dnaHorizontal || dnaVertical || dnaOblicua) {
+					if (++contDANMutant > 1)
+						return true;
+				}
 			}
 		}
 		return false;
