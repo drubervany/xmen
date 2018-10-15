@@ -2,7 +2,7 @@ package br.com.mutant.validation;
 
 import java.util.List;
 
-public final class DNAMutantValidation {
+public class DNAMutantValidation {
 
 	char[][] lista;
 	int totalLinhas;
