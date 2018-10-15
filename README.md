@@ -8,18 +8,20 @@
 
 ![Screenshot](arquitetura.png)
 
+
+Arquitetura desenvolvida para muitas execuções para menor tempo de processamento.
+
+**API Gatawey:** Reposta até 29.9s, após esse periodo ocorrete timeout.
+**Lamda:** Processamento maximo de 5min, após a AWS interrompe o processamento.
+**Dynamodb:** Banco de Dados NOSQL, onde é gravado todo o documento recebido na requisição.
+
+**Obs.:** Existem problemas de processamento e reposta para esta aquitetura!
+
 ## AWS-LAMBDA-JAVA-SERVERLESS
 
-DNA Mutante:
-POST → /mutant/
+###### REQUEST
 
-Body:
-```json
-{
-    "dna":["ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG"]
-}
-```
-DNA Humano:
+DNA Mutante:
 POST → /mutant/
 
 Body:
@@ -40,6 +42,20 @@ Body:
 }
 ```
 
+###### REQUEST
+
+DNA Humano:
+POST → /mutant/
+
+Body:
+```json
+{
+    "dna":["ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG"]
+}
+```
+
+###### RESPONSE
+
 | CODIGO | DESCRIÇÃO |
 |---|---|
 | 403 |  Humano |
@@ -49,6 +65,7 @@ Body:
 }
 ```
 
+###### REQUEST
 
 GET → /stats/
 
@@ -63,9 +80,10 @@ GET → /stats/
 }
 ```
 
-# Framawork Utilizado
+# Framework Utilizado
 
-Foi utilizado esta tecnologia para que atenda os tráfegos agressivos (entre 100 e 1milhões de pedidos por segundo).
+Foi utilizado esta tecnologia para que atenda os tráfegos agressivos (entre 100 e milhões de pedidos por segundo).
+
 
 **O Serverless Framework** – É utilizado para criação de microsserviços que são executados em resposta a eventos, autoescala para que cobre apenas quando eles são executados. Isso reduz o custo total de manutenção de seus aplicativos, permitindo que você crie mais lógica, mais rapidamente.
 
